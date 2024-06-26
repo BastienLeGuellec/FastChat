@@ -63,6 +63,19 @@ completion = openai.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
+You can access the log_probs of each response token, by setting `log_probs=True` in the parameters:
+
+```python
+# create a completion 
+completion = openai.chat.completions.create(
+  model=model,
+  messages=[{"role": "user", "content": "Hello! What is your name?"}],
+  log_probs=True
+)
+# print the list of log_probs
+print(completion.choices[0].message.logprobs)
+```
+
 Streaming is also supported. See [test_openai_api.py](../tests/test_openai_api.py).  If your api server is behind a proxy you'll need to turn off buffering, you can do so in Nginx by setting `proxy_buffering off;` in the location block for the proxy.
 
 ### cURL
@@ -146,7 +159,7 @@ export FASTCHAT_WORKER_API_EMBEDDING_BATCH_SIZE=1
 ## Todos
 Some features to be implemented:
 
-- [ ] Support more parameters like `logprobs`, `logit_bias`, `user`, `presence_penalty` and `frequency_penalty`
+- [ ] Support more parameters like `logit_bias`, `user`, `presence_penalty` and `frequency_penalty`
 - [ ] Model details (permissions, owner and create time)
 - [ ] Edits API
 - [ ] Rate Limitation Settings
